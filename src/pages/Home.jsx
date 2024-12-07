@@ -46,23 +46,23 @@ function Home() {
             Our products
           </button>
         </div>
-        <div className="carousel carousel-center bg-neutral rounded-box max-w-md space-x-4 p-4">
+        <div className="carousel carousel-center bg-neutral rounded-box max-w-md space-x-4 p-4">  
           <div className="carousel-item">
             <img
               src="https://img.freepik.com/free-photo/mid-century-modern-living-room-interior-design-with-monstera-tree_53876-129805.jpg"
-              className="rounded-box"
+              className="rounded-box w-96"
             />
           </div>
           <div className="carousel-item">
             <img
               src="https://media.istockphoto.com/id/943910360/photo/posters-in-cozy-apartment-interior.jpg?s=612x612&w=0&k=20&c=QzNjsxCNMcFNxpn4E2ocPvSU8Ud2S3B_mHyo5L-HOLo="
-              className="rounded-box"
+              className="rounded-box w-96"
             />
           </div>
           <div className="carousel-item">
             <img
               src="https://t3.ftcdn.net/jpg/02/71/05/60/360_F_271056073_C0tbpNLFbcGurqxoMXqPBrx8vzL9VLVY.jpg"
-              className="rounded-box"
+              className="rounded-box w-96"
             />
           </div>
         </div>

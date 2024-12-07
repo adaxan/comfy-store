@@ -1,8 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
 
 function MainLayout({ children }) {
+  const navigate = useNavigate()
   return (
     <div className="container mx-auto">
       <div className="flex gap-10 justify-end py-4">
@@ -24,7 +25,7 @@ function MainLayout({ children }) {
           </ul>
         </div>
         <div className="navbar-end cursor-pointer">
-          <IoCartOutline size={30} />
+          <IoCartOutline size={30} onClick={() => {navigate("/cart")}}/>
         </div>
       </div>
       <div className="py-8">
