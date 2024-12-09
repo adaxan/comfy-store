@@ -1,11 +1,13 @@
 import React, { createContext, useEffect, useState } from "react";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Cart from "./pages/Cart";
 import Details from "./pages/Details";
 import Products from "./pages/Products";
 import MainLayout from "./layouts/MainLayout";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 export const CartContext = createContext();
 
@@ -62,6 +64,8 @@ function App() {
               </MainLayout>
             }
           ></Route>
+          <Route path="/register" element={<Register></Register>}></Route>
+          <Route path="/login" element={<Login></Login>}></Route>
         </Routes>
       </CartContext.Provider>
   );
