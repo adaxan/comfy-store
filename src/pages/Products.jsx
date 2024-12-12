@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import http from "../axios";
 
 function Products() {
@@ -12,35 +12,45 @@ function Products() {
     price: 100000,
     freeShipping: false,
   });
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchProducts();
-  }, [filters]);
+  }, [filters, page]);
 
   function fetchProducts() {
-    const { search, category, company, order, price, freeShipping } = filters;
-    http
-      .get(
-        `products?search=${search}&category=${category}&company=${company}&order=${order}&price=${price}&freeShipping=${freeShipping}`
-      )
+    const queryParams = new URLSearchParams({
+      page,
+      search: filters.search,
+      category: filters.category,
+      company: filters.company,
+      order: filters.order,
+      price: filters.price,
+      freeShipping: filters.freeShipping,
+    });
+
+    http.get(`products?${queryParams.toString()}`)
       .then((response) => {
         if (response.status === 200) {
           setProducts(response.data.data);
+          setTotalPages(response.data.meta?.pagination?.pageCount || 1);
         }
       })
       .catch((error) => {
-        console.error(error);
+        console.error("Error fetching products:", error);
       });
   }
 
-  const handleFilterChange = (e) => {
+  function handleFilterChange(e) {
+    const { name, value, type, checked } = e.target;
     setFilters({
       ...filters,
-      [e.target.name]:
-        e.target.type === "checkbox" ? e.target.checked : e.target.value,
+      [name]: type === "checkbox" ? checked : value,
     });
-  };
+    setPage(1);
+  }
 
   function resetFilters() {
     setFilters({
@@ -51,10 +61,17 @@ function Products() {
       price: 100000,
       freeShipping: false,
     });
+    setPage(1);
   }
 
   function handleDetails(id) {
     navigate(`/products/${id}`);
+  }
+
+  function handlePageChange(newPage) {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setPage(newPage);
+    }
   }
 
   return (
@@ -124,8 +141,8 @@ function Products() {
         </div>
 
         <div className="flex flex-col w-1/2">
-          <div className="flex ">
-            <div className=" w-1/3">
+          <div className="flex">
+            <div className="w-1/3">
               <label className="text-gray-400 font-semibold mb-1 text-sm">
                 Select Price
               </label>
@@ -195,8 +212,26 @@ function Products() {
             </div>
           ))}
       </div>
+
+      <div className="flex justify-center items-center mt-8 gap-4">
+        <button
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1}
+          className="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 disabled:bg-gray-800"
+        >
+          Previous
+        </button>
+        <span className="text-gray-400">Page {page} of {totalPages}</span>
+        <button
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page === totalPages}
+          className="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 disabled:bg-gray-800"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
 
-export default Products;
+export default Products;  
